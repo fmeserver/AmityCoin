@@ -1,5 +1,6 @@
 // Copyright (c) 2018, The TurtleCoin Developers
-// 
+// Copyright (c) 2018, The Calex Developers
+//
 // Please see the included LICENSE file for more information.
 
 ///////////////////////////
@@ -7,6 +8,10 @@
 ///////////////////////////
 
 #include <Common/StringTools.h>
+
+#include <iostream>
+#include <iomanip>
+#include <ctime>
 
 #include <zedwallet/ColouredMsg.h>
 #include <zedwallet/CommandImplementations.h>
@@ -32,7 +37,7 @@ void checkForNewTransactions(std::shared_ptr<WalletInfo> walletInfo)
             /* Don't print outgoing or fusion transfers */
             if (t.totalAmount > 0)
             {
-                std::cout << std::endl
+			    std::cout << std::endl
                           << InformationMsg("New transaction found!")
                           << std::endl
                           << SuccessMsg("Incoming transfer:")
@@ -45,6 +50,13 @@ void checkForNewTransactions(std::shared_ptr<WalletInfo> walletInfo)
                           << InformationMsg(getPrompt(walletInfo))
                           << std::flush;
             }
+			
+			if (t.totalAmount > 0)
+			{
+				std::time_t t = std::time(nullptr);
+				std::cout << "local:     " << std::put_time(std::localtime(&t), "%c %Z") << '\n'
+				<< std::flush;
+			}
         }
 
         walletInfo->knownTransactionCount = newTransactionCount;
